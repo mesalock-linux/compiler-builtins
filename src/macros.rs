@@ -208,13 +208,13 @@ macro_rules! intrinsics {
 
         $($rest:tt)*
     ) => (
-        #[cfg(target_arch = "arm")]
+        #[cfg(all(target_arch = "arm", not(target_os = "optee")))]
         #[cfg_attr(not(feature = "mangled-names"), no_mangle)]
         pub extern $abi fn $name( $($argname: $ty),* ) -> $ret {
             $($body)*
         }
 
-        #[cfg(target_arch = "arm")]
+        #[cfg(all(target_arch = "arm", not(target_os = "optee")))]
         pub mod $name {
             intrinsics! {
                 pub extern "aapcs" fn $alias( $($argname: $ty),* ) -> $ret {
@@ -223,7 +223,7 @@ macro_rules! intrinsics {
             }
         }
 
-        #[cfg(not(target_arch = "arm"))]
+        #[cfg(any(not(target_arch = "arm"), target_os = "optee"))]
         intrinsics! {
             $(#[$($attr)*])*
             pub extern $abi fn $name( $($argname: $ty),* ) -> $ret {
