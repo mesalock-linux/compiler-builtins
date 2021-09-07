@@ -419,7 +419,7 @@ mod c {
                 ("__trunctfsf2", "trunctfsf2.c"),
             ]);
 
-            if target_os != "windows" {
+            if target_os != "windows" && target_os != "optee" {
                 sources.extend(&[("__multc3", "multc3.c")]);
             }
 

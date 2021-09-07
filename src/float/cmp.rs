@@ -158,7 +158,7 @@ intrinsics! {
     }
 }
 
-#[cfg(target_arch = "arm")]
+#[cfg(all(target_arch = "arm", not(target_os = "optee")))]
 intrinsics! {
     pub extern "aapcs" fn __aeabi_fcmple(a: f32, b: f32) -> i32 {
         (__lesf2(a, b) <= 0) as i32
